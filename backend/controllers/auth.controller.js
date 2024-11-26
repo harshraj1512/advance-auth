@@ -1,8 +1,11 @@
 import { User } from "../models/user.model.js";
 import bcyptjs from "bcryptjs";
 import crypto from "crypto";
+import dotenv from "dotenv";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndCookie.js";
-import { sendPasswordResetEmail, sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js";
+import { sendPasswordResetEmail, sendResetsuccessEmail, sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js";
+
+dotenv.config();
 
 export const signup = async (req, res) => {
     const {email, password, name} = req.body;
@@ -165,9 +168,27 @@ export const resetPassword = async (req, res) => {
         user.password = hashedPassword;
         user.resetPasswordToken = undefined;
         user.resetPasswordExpiresAt = undefined;
-
         await user.save();
+
+        await sendResetsuccessEmail(user.email);
+
+        res.status(200).json({ success: true, message: "Password reset successful" });
     } catch (error) {
-        
+        console.log("Error in resetpassword", error);
+        res.status(400).json({ success: false, message: error.message });
+    }
+}
+
+export const checkAuth = async (req, res) => {
+    try {
+        const user = await User.findById(req.userId).select("-password");
+        if (!user) {
+            return res.status(400).json({ success: false, message: "User not found" });
+        }
+
+        res.status(200).json({ success: true, user });
+    } catch (error) {
+        console.log("Error in checkAuth", error);
+        return res.status(400).json({ success: false, message: error.message });
     }
 }
