@@ -41,5 +41,4 @@ By creating this project, you'll gain a deeper understanding of:
 
 Feel free to fork, contribute, or use this project as a base for your own authentication system! 🎉
 
-## License
-This project is open-source and available under the [MIT License](LICENSE).
+
