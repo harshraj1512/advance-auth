@@ -41,4 +41,11 @@ By creating this project, you'll gain a deeper understanding of:
 
 Feel free to fork, contribute, or use this project as a base for your own authentication system! 🎉
 
+## Video
+[Watch Demo Video](https://github.com/user-attachments/assets/9f88812a-1505-4adc-96bc-25ecc2504b57)
+
+
+
+
+
 
